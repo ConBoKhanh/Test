@@ -49,7 +49,8 @@ public class NhanVienController {
         Pageable pageable = PageRequest.of(number, 2);
         Page<NhanVien> listnv = this.repoNV.findAll(pageable);
         model.addAttribute("listNV", listnv);
-        return "admin/nhan_vien/index";
+        model.addAttribute("view","/views/admin/nhan_vien/index.jsp");
+        return "layoutProNhanVien";
     }
 
     @GetMapping("create")
@@ -59,8 +60,9 @@ public class NhanVienController {
         model.addAttribute("nv",nv);
         model.addAttribute("chs",listCH);
         model.addAttribute("cvs",listCV);
-        model.addAttribute("action","/nhan-vien/store");
-        return "admin/nhan_vien/createnv";
+        model.addAttribute("action","/admin/nhan-vien/store");
+        model.addAttribute("view","/views/admin/nhan_vien/createnv.jsp");
+        return "layoutProNhanVien";
     }
 
     @PostMapping("store")
@@ -71,7 +73,8 @@ public class NhanVienController {
             System.out.println(result.toString());
             model.addAttribute("chs",listCH);
             model.addAttribute("cvs",listCV);
-            return "admin/nhan_vien/createnv";
+            model.addAttribute("view","/views/admin/nhan_vien/createnv.jsp");
+            return "layoutProNhanVien";
         }
             NhanVien nvNew = NhanVien.builder()
                     .ma(nv.getMa())
@@ -88,7 +91,7 @@ public class NhanVienController {
                     .cv(nv.getCv()).build();
             this.repoNV.save(nvNew);
         parmar.addAttribute("message"," alert('them ok')");
-            return "redirect:/nhan-vien/index";
+            return "redirect:/admin/nhan-vien/index";
 
 
     }
@@ -100,8 +103,9 @@ public class NhanVienController {
         model.addAttribute("chs",listCH);
         model.addAttribute("cvs",listCV);
         model.addAttribute("nv",nhanVienCu);
-        model.addAttribute("action","/nhan-vien/update/"+nhanVienCu.getId());
-        return "admin/nhan_vien/createnv";
+        model.addAttribute("action","/admin/nhan-vien/update/"+nhanVienCu.getId());
+        model.addAttribute("view","/views/admin/nhan_vien/createnv.jsp");
+        return "layoutProNhanVien";
     }
     @PostMapping("update/{id}")
     public String update(@PathVariable("id") NhanVien nhanVienCu,@Valid @ModelAttribute("nv") NhanVienVM nv, BindingResult result,Model model,RedirectAttributes parmar){
@@ -111,7 +115,8 @@ public class NhanVienController {
             System.out.println(result.toString());
             model.addAttribute("chs",listCH);
             model.addAttribute("cvs",listCV);
-            return "admin/nhan_vien/createnv";
+            model.addAttribute("view","/views/admin/nhan_vien/createnv.jsp");
+            return "layoutProNhanVien";
         }
         NhanVien nvNew = NhanVien.builder()
                 .id(nhanVienCu.getId())
@@ -129,14 +134,14 @@ public class NhanVienController {
                 .cv(nv.getCv()).build();
         this.repoNV.save(nvNew);
         parmar.addAttribute("message"," alert('sua ok')");
-        return "redirect:/nhan-vien/index";
+        return "redirect:/admin/nhan-vien/index";
     }
 
      @GetMapping("delete/{id}")
      public String delete(@PathVariable("id") NhanVien nv, RedirectAttributes parmar,Model model){
          this.repoNV.delete(nv);
          parmar.addAttribute("message"," alert('xoa ok')");
-         return "redirect:/nhan-vien/index";
+         return "redirect:/admin/nhan-vien/index";
      }
 
 

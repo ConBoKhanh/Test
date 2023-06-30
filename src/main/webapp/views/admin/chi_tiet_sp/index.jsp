@@ -20,7 +20,7 @@
 </script>
 <h1>Danh Sách Nhân Viên</h1>
 </body>
-<a href="/chi-tiet-sp/create" class="btn btn-primary">Thêm mới</a>
+<a href="/admin/chi-tiet-sp/create" class="btn btn-primary">Thêm mới</a>
 <table class="table    table-bordered">
     <tr style="background-color: gainsboro">
         <td>id</td>
@@ -52,8 +52,8 @@
             <td>${nv.giaBan}</td>
 
             <td>
-                <a href="/chi-tiet-sp/delete/${nv.id}" class="btn btn-danger">delete</a>
-                <a href="/chi-tiet-sp/edit/${nv.id}" class="btn btn-primary">update</a>
+                <a href="/admin/chi-tiet-sp/delete/${nv.id}" class="btn btn-danger">delete</a>
+                <a href="/admin/chi-tiet-sp/edit/${nv.id}" class="btn btn-primary">update</a>
             </td>
 
         </tr>
@@ -67,7 +67,7 @@
     <ul class="pagination">
         <c:forEach begin="0" end="${ listCTSP.totalPages -1}" varStatus="loop">
             <li class="page-item">
-                <a class="page-link" href="/chi-tiet-sp/index?page=${loop.begin + loop.count -1}">
+                <a class="page-link" href="/admin/chi-tiet-sp/index?page=${loop.begin + loop.count -1}">
                         ${loop.begin + loop.count }
                 </a>
             </li>

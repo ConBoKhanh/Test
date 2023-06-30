@@ -29,6 +29,7 @@
                <div class="form-control">
                    <label>Tên</label>
                    <sf:input path="ten" class="form-control"/>
+                   <sf:errors path="ten" />
                </div>
                <div class="form-control">
                    <label>tendem</label>
@@ -94,9 +95,6 @@
                </div>
            </div>
        </div>
-
-
-
         <button class="btn btn-primary">Thêm</button>
     </sf:form>
 </div>

@@ -20,7 +20,7 @@
 </script>
 <h1>Danh Sách Nhân Viên</h1>
 </body>
-<a href="/nhan-vien/create" class="btn btn-primary">Thêm mới</a>
+<a href="/admin/nhan-vien/create" class="btn btn-primary">Thêm mới</a>
 <table class="table    table-bordered">
     <tr style="background-color: gainsboro">
         <td>id</td>
@@ -57,22 +57,20 @@
             <td>${nv.cv.ten}</td>
             <td>${nv.trangThai}</td>
             <td>
-                <a href="/nhan-vien/delete/${nv.id}" class="btn btn-danger">delete</a>
-                <a href="/nhan-vien/edit/${nv.id}" class="btn btn-primary">update</a>
+                <a href="/admin/nhan-vien/delete/${nv.id}" class="btn btn-danger">delete</a>
+                <a href="/admin/nhan-vien/edit/${nv.id}" class="btn btn-primary">update</a>
             </td>
 
         </tr>
         </tbody>
 
     </c:forEach>
-
-
 </table>
 <nav aria-label="Page navigation example">
     <ul class="pagination">
         <c:forEach begin="0" end="${ listNV.totalPages -1}" varStatus="loop">
             <li class="page-item">
-                <a class="page-link" href="/nhan-vien/index?page=${loop.begin + loop.count -1}">
+                <a class="page-link" href="/admin/nhan-vien/index?page=${loop.begin + loop.count -1}">
                         ${loop.begin + loop.count }
                 </a>
             </li>

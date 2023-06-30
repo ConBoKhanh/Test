@@ -25,10 +25,6 @@ public class MauSacVM {
     @Length(max = 255)
     private String ten;
 
-    public void loadFromDomain(MauSac domainModel)
-    {
-        this.setMa(domainModel.getMa());
-        this.setTen(domainModel.getTen());
-    }
+
 
 }

@@ -11,4 +11,7 @@ import java.util.UUID;
 public interface GioHangRepository extends JpaRepository<GioHang, UUID> {
     @Query(value = "select gh from GioHang gh where gh.khachHang.id = ?1")
     GioHang getGioHangByKhachHang(UUID id);
+
+    @Query(value = "select MAX(CONVERT(INT,hd.Ma)) from GioHang hd",nativeQuery = true)
+    Integer maxMa();
 }

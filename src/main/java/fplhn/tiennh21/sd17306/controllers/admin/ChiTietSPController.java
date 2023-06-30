@@ -42,10 +42,11 @@ public class ChiTietSPController {
     @GetMapping("index")
     public String index(@RequestParam(defaultValue = "0", name = "page") Integer number, Model model){
 //        List<NhanVien> listnv = this.repoNV.findAll();
-        Pageable pageable = PageRequest.of(number, 2);
+        Pageable pageable = PageRequest.of(number, 4);
         Page<ChiTietSP> listctsp = this.repoCtsp.findAll(pageable);
         model.addAttribute("listCTSP", listctsp);
-        return "admin/chi_tiet_sp/index";
+        model.addAttribute("view","/views/admin/chi_tiet_sp/index.jsp");
+        return "layoutProNhanVien";
     }
 
     @GetMapping("create")
@@ -54,16 +55,17 @@ public class ChiTietSPController {
         List<MauSac> listMs =repoMs.findAll();
         List<NSX> listNsx = repoNsx.findAll();
         List<SanPham> listSp =repoSp.findAll();
-        model.addAttribute("nv",ctsp);
+        model.addAttribute("data",ctsp);
         model.addAttribute("dsps",listDsp);
         model.addAttribute("mss",listMs);
         model.addAttribute("nsxs",listNsx);
         model.addAttribute("sps",listSp);
-        model.addAttribute("action","/chi-tiet-sp/store");
-        return "admin/chi_tiet_sp/createct";
+        model.addAttribute("action","/admin/chi-tiet-sp/store");
+        model.addAttribute("view","/views/admin/chi_tiet_sp/createct.jsp");
+        return "layoutProNhanVien";
     }
     @PostMapping("store")
-    public String store(@Valid @ModelAttribute("nv") ChiTietSP nv, BindingResult result, Model model, RedirectAttributes parmar){
+    public String store(@Valid @ModelAttribute("data") ChiTietSP nv, BindingResult result, Model model, RedirectAttributes parmar){
         if(result.hasErrors()){
             List<DongSP> listDsp = repoDsp.findAll();
             List<MauSac> listMs =repoMs.findAll();
@@ -74,7 +76,8 @@ public class ChiTietSPController {
             model.addAttribute("mss",listMs);
             model.addAttribute("nsxs",listNsx);
             model.addAttribute("sps",listSp);
-            return "admin/chi_tiet_sp/createct";
+            model.addAttribute("view","/views/admin/chi_tiet_sp/createct.jsp");
+            return "layoutProNhanVien";
         }
         ChiTietSP nvNew = ChiTietSP.builder()
                 .sp(nv.getSp())
@@ -89,14 +92,14 @@ public class ChiTietSPController {
                 .build();
         this.repoCtsp.save(nvNew);
         parmar.addAttribute("message"," alert('them ok')");
-        return "redirect:/chi-tiet-sp/index";
+        return "redirect:/admin/chi-tiet-sp/index";
 
     }
     @GetMapping("delete/{id}")
     public String delete(@PathVariable("id") ChiTietSP nv, RedirectAttributes parmar,Model model){
         this.repoCtsp.delete(nv);
         parmar.addAttribute("message"," alert('xoa ok')");
-        return "redirect:/chi-tiet-sp/index";
+        return "redirect:/admin/chi-tiet-sp/index";
     }
 
     @GetMapping("edit/{id}")
@@ -110,13 +113,14 @@ public class ChiTietSPController {
         model.addAttribute("mss",listMs);
         model.addAttribute("nsxs",listNsx);
         model.addAttribute("sps",listSp);
-        model.addAttribute("nv",nhanVienCu);
-        model.addAttribute("action","/chi-tiet-sp/update/"+nhanVienCu.getId());
-        return "admin/chi_tiet_sp/createct";
+        model.addAttribute("data",nhanVienCu);
+        model.addAttribute("action","/admin/chi-tiet-sp/update/"+nhanVienCu.getId());
+        model.addAttribute("view","/views/admin/chi_tiet_sp/createct.jsp");
+        return "layoutProNhanVien";
     }
 
     @PostMapping("update/{id}")
-    public String update(@PathVariable("id") ChiTietSP chitietsp,@Valid @ModelAttribute("nv") ChiTietSP nv, BindingResult result,Model model,RedirectAttributes parmar) {
+    public String update(@PathVariable("id") ChiTietSP chitietsp,@Valid @ModelAttribute("data") ChiTietSP nv, BindingResult result,Model model,RedirectAttributes parmar) {
         if (result.hasErrors()) {
             List<DongSP> listDsp = repoDsp.findAll();
             List<MauSac> listMs = repoMs.findAll();
@@ -127,7 +131,8 @@ public class ChiTietSPController {
             model.addAttribute("mss", listMs);
             model.addAttribute("nsxs", listNsx);
             model.addAttribute("sps", listSp);
-            return "admin/chi_tiet_sp/createct";
+            model.addAttribute("view","/views/admin/chi_tiet_sp/createct.jsp");
+            return "layoutProNhanVien";
         }
         ChiTietSP nvNew = ChiTietSP.builder()
                 .id(chitietsp.getId())
@@ -143,7 +148,7 @@ public class ChiTietSPController {
                 .build();
         this.repoCtsp.save(nvNew);
         parmar.addAttribute("message", " alert('sua ok')");
-        return "redirect:/chi-tiet-sp/index";
+        return "redirect:/admin/chi-tiet-sp/index";
 
 
     }

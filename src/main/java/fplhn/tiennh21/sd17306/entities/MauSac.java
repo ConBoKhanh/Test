@@ -3,10 +3,7 @@ package fplhn.tiennh21.sd17306.entities;
 import fplhn.tiennh21.sd17306.request.CuaHangVM;
 import fplhn.tiennh21.sd17306.request.MauSacVM;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.UUID;
 
@@ -16,6 +13,7 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class MauSac {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -28,10 +26,5 @@ public class MauSac {
     @Column(name="Ten")
     private String ten;
 
-    public void loadFromVM(MauSacVM ms)
-    {
-        this.setTen( ms.getTen() );
-        this.setMa( ms.getMa() );
 
-    }
 }

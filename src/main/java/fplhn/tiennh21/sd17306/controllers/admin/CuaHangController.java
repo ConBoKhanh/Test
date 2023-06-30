@@ -28,8 +28,9 @@ public class CuaHangController {
     public String create(Model model)
     {
         model.addAttribute("vm", vm);
-        model.addAttribute("action", "/cua-hang/store");
-        return "admin/cua_hang/createch";
+        model.addAttribute("action", "/admin/cua-hang/store");
+        model.addAttribute("view","/views/admin/cua_hang/createch.jsp");
+        return "layoutProNhanVien";
     }
 
     @GetMapping("edit/{id}")
@@ -37,34 +38,37 @@ public class CuaHangController {
     {
         vm.loadFromDomain(cuaHang);
         model.addAttribute("vm", vm);
-        model.addAttribute("action", "/cua-hang/update/" + cuaHang.getId());
-        return "admin/cua_hang/createch";
+        model.addAttribute("action", "/admin/cua-hang/update/" + cuaHang.getId());
+        model.addAttribute("view","/views/admin/cua_hang/createch.jsp");
+        return "layoutProNhanVien";
     }
 
     @PostMapping("update/{id}")
     public String update(
             @PathVariable("id") CuaHang domainModel,
-            @Valid @ModelAttribute("vm") CuaHangVM vm,
-            BindingResult result
+            @Valid @ModelAttribute("ms") CuaHangVM vm,
+            BindingResult result, Model model
     ) {
         if (result.hasErrors()) {
-            return "admin/cua_hang/createch";
+            model.addAttribute("view","/views/admin/cua_hang/createch.jsp");
+            return "layoutProNhanVien";
         } else {
             domainModel.loadFromVM(vm);
             this.cuaHangRepo.save(domainModel);
         }
-        return "redirect:/cua-hang/index";
+        return "redirect:/admin/cua-hang/index";
     }
 
     @PostMapping("store")
     public String store(
-        @Valid @ModelAttribute("vm") CuaHangVM vm,
-        BindingResult result
+        @Valid @ModelAttribute("ms") CuaHangVM vm,
+        BindingResult result,Model model
     ) {
         if (result.hasErrors()) {
             // Báo lỗi
             System.out.println(vm.getTen());
-            return "admin/cua_hang/createch";
+            model.addAttribute("view","/views/admin/cua_hang/createch.jsp");
+            return "layoutProNhanVien";
         } else {
             CuaHang ch = new CuaHang();
             ch.setTen(vm.getTen());
@@ -74,7 +78,7 @@ public class CuaHangController {
             ch.setQuocGia(vm.getQuocGia());
             this.cuaHangRepo.save(ch);
         }
-        return "redirect:/cua-hang/index";
+        return "redirect:/admin/cua-hang/index";
     }
 
     @GetMapping("index")
@@ -82,7 +86,8 @@ public class CuaHangController {
     {
         List<CuaHang> ds = cuaHangRepo.findAll();
         model.addAttribute("data", ds);
-        return "admin/cua_hang/index";
+        model.addAttribute("view","/views/admin/cua_hang/index.jsp");
+        return "layoutProNhanVien";
     }
 
     @GetMapping("delete/{id}")
@@ -91,6 +96,6 @@ public class CuaHangController {
         System.out.println(cuaHang.getTen());
         System.out.println(cuaHang.getMa());
         this.cuaHangRepo.delete(cuaHang);
-        return "redirect:/cua-hang/index";
+        return "redirect:/admin/cua-hang/index";
     }
 }

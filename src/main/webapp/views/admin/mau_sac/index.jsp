@@ -13,8 +13,8 @@
 
 </head>
 <body>
-<a href="/mau-sac/createms">Thêm mới</a>
-<table>
+<a href="/admin/mau-sac/createms" class="btn btn-primary">Thêm mới</a>
+<table class="table table-bordered">
     <thead>
     <th>STT</th>
     <th>Mã</th>
@@ -22,25 +22,25 @@
     <th colspan="2">Thao tác</th>
     </thead>
     <tbody>
-    <c:forEach items="${data.content}" var="ch">
+    <c:forEach items="${lis.content}" var="ch">
         <tr>
             <td>${ ch.id }</td>
             <td>${ ch.ma }</td>
             <td>${ ch.ten }</td>
             <td>
-                <a href="/mau-sac/edit/${ch.id}">Cập nhật</a>
+                <a href="/admin/mau-sac/edit/${ch.id}">Cập nhật</a>
             </td>
             <td>
-                <a href="/mau-sac/delete/${ch.id}">Xóa</a>
+                <a href="/admin/mau-sac/delete/${ch.id}">Xóa</a>
             </td>
         </tr>
     </c:forEach>
     </tbody>
     <nav aria-label="Page navigation example">
         <ul class="pagination">
-            <c:forEach begin="0" end="${ data.totalPages -1}" varStatus="loop">
+            <c:forEach begin="0" end="${ lis.totalPages -1}" varStatus="loop">
             <li class="page-item">
-                <a class="page-link" href="/mau-sac/index?page=${loop.begin + loop.count}">
+                <a class="page-link" href="/admin/mau-sac/index?page=${loop.begin + loop.count - 1}">
                         ${loop.begin + loop.count }
                 </a>
             </li>

@@ -17,7 +17,7 @@
 <div class="container">
     <br><br>
     <sf:form action="${ action }" method="post"
-             modelAttribute="nv">
+             modelAttribute="data">
         <h1>From Create CHI TIET SP</h1><br><br>
     <div class="row">
         <div class="col-6">
@@ -74,7 +74,7 @@
                 </div>
                 <div class="form-control">
                     <label>soLuongTon</label>
-                    <sf:input path="soLuongTon" class="form-control"/>
+                    <sf:input path="soLuongTon" class="form-control" type="number" min="0" value="1" />
                     <sf:errors path="soLuongTon"/>
                 </div>
                 <div class="form-control">

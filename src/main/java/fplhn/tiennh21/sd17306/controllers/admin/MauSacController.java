@@ -1,8 +1,10 @@
 package fplhn.tiennh21.sd17306.controllers.admin;
 
+import fplhn.tiennh21.sd17306.entities.ChucVu;
 import fplhn.tiennh21.sd17306.entities.CuaHang;
 import fplhn.tiennh21.sd17306.entities.MauSac;
 import fplhn.tiennh21.sd17306.repositories.MauSacRepository;
+import fplhn.tiennh21.sd17306.request.ChucVuVM;
 import fplhn.tiennh21.sd17306.request.CuaHangVM;
 import fplhn.tiennh21.sd17306.request.MauSacVM;
 import jakarta.validation.Valid;
@@ -43,32 +45,37 @@ public String getAll(@RequestParam(defaultValue = "0", name = "page") Integer nu
     // 2:  soPage => Trang so may : pageNo
     Pageable pageable = PageRequest.of(number, 2);
     Page<MauSac> ds = repo.findAll(pageable);
-    model.addAttribute("data", ds );
-    return "admin/mau_sac/index";
+    model.addAttribute("lis", ds );
+    model.addAttribute("view","/views/admin/mau_sac/index.jsp");
+    return "layoutProNhanVien";
 }
 
     @GetMapping("createms")
     public String create(Model model)
     {
-        model.addAttribute("ms", ms);
-        model.addAttribute("action", "/mau-sac/store");
-        return "admin/mau_sac/createms";
+        model.addAttribute("data", ms);
+        model.addAttribute("action", "/admin/mau-sac/store");
+        model.addAttribute("view","/views/admin/mau_sac/createms.jsp");
+        return "layoutProNhanVien";
     }
     @PostMapping("store")
     public String store(
-            @Valid @ModelAttribute("ms") MauSacVM ms,
-            BindingResult result
+            @Valid @ModelAttribute("data") MauSacVM ms,
+            BindingResult result,Model model
     ) {
         if (result.hasErrors()) {
             // Báo lỗi
             System.out.println(ms.getTen());
-            return "admin/mau_sac/createms";
+            model.addAttribute("view","/views/admin/mau_sac/createms.jsp");
+            return "layoutProNhanVien";
         } else {
-            MauSac ch = new MauSac();
-            ms.loadFromDomain(ch);
-            this.repo.save(ch);
+            MauSac mauSac = MauSac.builder()
+                    .ma(ms.getMa())
+                    .ten(ms.getTen())
+                    .build();
+            this.repo.save(mauSac);
         }
-        return "redirect:/mau-sac/index";
+        return "redirect:/admin/mau-sac/index";
     }
 
     @GetMapping("delete/{id}")
@@ -77,29 +84,36 @@ public String getAll(@RequestParam(defaultValue = "0", name = "page") Integer nu
         System.out.println(mauSac.getTen());
         System.out.println(mauSac.getMa());
         this.repo.delete(mauSac);
-        return "redirect:/mau-sac/index";
+        return "redirect:/admin/mau-sac/index";
     }
 
     @GetMapping("edit/{id}")
-    public String edit(@PathVariable("id") MauSac mauSac, Model model)
-    {
-        ms.loadFromDomain(mauSac);
-        model.addAttribute("ms", ms);
-        model.addAttribute("action", "/mau-sac/update/" + mauSac.getId());
-        return "admin/mau_sac/createms";
+    public String edit(@PathVariable("id")MauSac mauSac,Model model){
+
+        model.addAttribute("data",mauSac);
+        model.addAttribute("action","/admin/mau-sac/update/" + mauSac.getId());
+        model.addAttribute("view","/views/admin/mau_sac/createms.jsp");
+        return "layoutProNhanVien";
     }
     @PostMapping("update/{id}")
-    public String update(
-            @PathVariable("id") MauSac domain,
-            @Valid @ModelAttribute("ms") MauSacVM ms,
-            BindingResult result
-    ) {
-        if (result.hasErrors()) {
-            return "admin/mau_sac/createms";
-        } else {
-            domain.loadFromVM(ms);
-            this.repo.save(domain);
+    public String update(@PathVariable("id") MauSac oldValue,
+                         Model model, @Valid @ModelAttribute("data") MauSacVM newValue, BindingResult result){
+        if(result.hasErrors()){
+            model.addAttribute("data",oldValue);
+            model.addAttribute("action","/admin/mau-sac/update/"+ oldValue.getId());
+            System.out.println("1");
+            model.addAttribute("view","/views/admin/mau_sac/createms.jsp");
+            return "layoutProNhanVien";
+
         }
-        return "redirect:/mau-sac/index";
+        MauSac mauSac = MauSac.builder()
+                .id(oldValue.getId())
+                .ma(newValue.getMa())
+                .ten(newValue.getTen())
+                .build();
+        this.repo.save(mauSac);
+        System.out.println("2");
+        return "redirect:/admin/mau-sac/index";
     }
+
 }
